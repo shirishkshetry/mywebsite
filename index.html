@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MadforGames - Play Free Online Browser Games</title>
+    <meta name="description" content="Play hundreds of free online games at MadforGames! Action, puzzle, racing, multiplayer and more - no downloads required!">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff4757;
+            --primary-dark: #e84118;
+            --secondary: #3742fa;
+            --accent: #ffa502;
+            --dark: #2f3542;
+            --light: #f1f2f6;
+            --gray: #747d8c;
+            --light-gray: #dfe4ea;
+            --success: #2ed573;
+            --danger: #ff4757;
+            --warning: #ffa502;
+        }
+
+        [data-theme="light"] {
+            --bg: var(--light);
+            --text: var(--dark);
+            --card-bg: white;
+            --header-bg: white;
+            --border: var(--light-gray);
+            --text-muted: var(--gray);
+        }
+
+        [data-theme="dark"] {
+            --bg: #1a1a1a;
+            --text: #f0f0f0;
+            --card-bg: #2a2a2a;
+            --header-bg: #222;
+            --border: #444;
+            --text-muted: #aaa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--header-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Arial Black', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .logo i {
+            font-size: 32px;
+            color: var(--accent);
+        }
+
+        .search-bar {
+            flex-grow: 1;
+            max-width: 500px;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            background-color: var(--card-bg);
+            color: var(--text);
+            font-size: 16px;
+        }
+
+        .search-bar button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-actions button {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 16px;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.2s;
+        }
+
+        .user-actions .login {
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .user-actions .login:hover {
+            background-color: rgba(255, 71, 87, 0.1);
+        }
+
+        .user-actions .signup {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .user-actions .signup:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--header-bg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 0;
+            scrollbar-width: none;
+        }
+
+        .nav-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-item {
+            padding: 8px 15px;
+            white-space: nowrap;
+            border-radius: 20px;
+            margin-right: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 60px 0;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 71, 87, 0.1) 0%, rgba(55, 66, 250, 0.1) 100%);
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .hero-buttons button {
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .hero-buttons .primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+        }
+
+        .hero-buttons .primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+        }
+
+        .hero-buttons .secondary {
+            background-color: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-buttons .secondary:hover {
+            background-color: var(--bg);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Games Grid */
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0 20px;
+        }
+
+        .section-title h2 {
+            font-size: 1.8rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 3px;
+        }
+
+        .section-title a {
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .section-title a:hover {
+            text-decoration: underline;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .game-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-thumbnail {
+            position: relative;
+            height: 160px;
+            overflow: hidden;
+        }
+
+        .game-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .game-card:hover .game-thumbnail img {
+            transform: scale(1.1);
+        }
+
+        .game-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--primary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .game-badge.exclusive {
+            background-color: var(--accent);
+        }
+
+        .game-badge.multiplayer {
+            background-color: var(--secondary);
+        }
+
+        .game-badge.new {
+            background-color: var(--success);
+        }
+
+        .game-info {
+            padding: 15px;
+        }
+
+        .game-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .game-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .game-stats {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .game-stats span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+        }
+
+        .game-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .play-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            flex-grow: 1;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .play-button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .like-button {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 18px;
+            transition: all 0.2s;
+        }
+
+        .like-button:hover {
+            color: var(--danger);
+        }
+
+        .like-button.liked {
+            color: var(--danger);
+        }
+
+        /* Categories */
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        .category {
+            padding: 8px 20px;
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .category:hover, .category.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Featured Banner */
+        .featured-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 40px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .featured-content {
+            max-width: 60%;
+        }
+
+        .featured-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .featured-content p {
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .featured-button {
+            background-color: white;
+            color: var(--primary);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .featured-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .featured-image {
+            width: 30%;
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--header-bg);
+            padding: 60px 0 20px;
+            margin-top: 80px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .footer-column p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .footer-column a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            font-size: 20px;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .featured-content {
+                max-width: 50%;
+            }
+            
+            .featured-image {
+                width: 40%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-bar {
+                width: 100%;
+                max-width: 100%;
+                margin: 15px 0;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .featured-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .featured-content {
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .featured-image {
+                width: 100%;
+            }
+
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .hero-buttons button {
+                width: 100%;
+            }
+
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+
+            .game-thumbnail {
+                height: 140px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-fire"></i>
+                <span>MadforGames</span>
+            </a>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search games...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            
+            <div class="user-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="login">Login</button>
+                <button class="signup">Sign Up</button>
+            </div>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container nav-container">
+            <a href="#" class="nav-item active">Home</a>
+            <a href="#" class="nav-item">Action</a>
+            <a href="#" class="nav-item">Puzzle</a>
+            <a href="#" class="nav-item">Racing</a>
+            <a href="#" class="nav-item">Multiplayer</a>
+            <a href="#" class="nav-item">Strategy</a>
+            <a href="#" class="nav-item">Simulation</a>
+            <a href="#" class="nav-item">Casual</a>
+            <a href="#" class="nav-item">Adventure</a>
+            <a href="#" class="nav-item">Sports</a>
+            <a href="#" class="nav-item">Shooter</a>
+            <a href="#" class="nav-item">Custom Games</a>
+        </div>
+    </nav>
+    
+    <main class="container">
+        <section class="hero">
+            <h1>Get Mad for Games!</h1>
+            <p>Discover the hottest collection of free online games. No downloads, no installs - just instant fun!</p>
+            <div class="hero-buttons">
+                <button class="primary">Play Trending Games</button>
+                <button class="secondary">Browse Categories</button>
+            </div>
+        </section>
+        
+        <div class="categories">
+            <div class="category active">All Games</div>
+            <div class="category">HTML5</div>
+            <div class="category">Unity</div>
+            <div class="category">WebGL</div>
+            <div class="category">3D</div>
+            <div class="category">2D</div>
+            <div class="category">New Releases</div>
+            <div class="category">Top Rated</div>
+            <div class="category">Most Played</div>
+        </div>
+        
+        <section>
+            <div class="section-title">
+                <h2>Trending Now</h2>
+                <a href="#">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="games-grid">
+                <!-- Game Card 1 -->
+                <div class="game-card">
+                    <div class="game-thumbnail">
+                        <img src="https://via.placeholder.com/300x150/ff4757/ffffff?text=Zombie+Apocalypse" alt="Zombie Apocalypse">
+                        <div class="game-badge multiplayer">Multiplayer</div>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Zombie Apocalypse</h3>
+                        <div class="game-meta">
+                            <span>Action</span>
+                            <span>4.8 ★</span>
+                        </div>
+                        <div class="game-stats">
+                            <span><i class="fas fa-users"></i> 15.2K</span>
+                            <span><i class="fas fa-heart"></i> 9.8K</span>
+                        </div>
+                        <div class="game-actions">
+                            <button class="play-button">Play Now</button>
+                            <button class="like-button"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game Card 2 -->
+                <div class="game-card">
+                    <div class="game-thumbnail">
+                        <img src="https://via.placeholder.com/300x150/3742fa/ffffff?text=Puzzle+Quest" alt="Puzzle Quest">
+                        <div class="game-badge">HTML5</div>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Puzzle Quest</h3>
+                        <div class="game-meta">
+                            <span>Puzzle</span>
+                            <span>4.9 ★</span>
+                        </div>
+                        <div class="game-stats">
+                            <span><i class="fas fa-users"></i> 12.7K</span>
+                            <span><i class="fas fa-heart"></i> 8.9K</span>
+                        </div>
+                        <div class="game-actions">
+                            <button class="play-button">Play Now</button>
+                            <button class="like-button"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game Card 3 -->
+                <div class="game-card">
+                    <div class="game-thumbnail">
+                        <img src="https://via.placeholder.com/300x150/ffa502/ffffff?text=Neon+Drift" alt="Neon Drift">
+                        <div class="game-badge">WebGL</div>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Neon Drift</h3>
+                        <div class="game-meta">
+                            <span>Racing</span>
+                            <span>4.7 ★</span>
+                        </div>
+                        <div class="game-stats">
+                            <span><i class="fas fa-users"></i> 18.3K</span>
+                            <span><i class="fas fa-heart"></i> 12.4K</span>
+                        </div>
+                        <div class="game-actions">
+                            <button class="play-button">Play Now</button>
+                            <button class="like-button"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game Card 4 -->
+                <div class="game-card">
+                    <div class="game-thumbnail">
+                        <img src="https://via.placeholder.com/300x150/2ed573/ffffff?text=Kingdom+Defense" alt="Kingdom Defense">
+                        <div class="game-badge">Strategy</div>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Kingdom Defense</h3>
+                        <div class="game-meta">
+                            <span>Strategy</span>
+                            <span>4.8 ★</span>
+                        </div>
+                        <div class="game-stats">
+                            <span><i class="fas fa-users"></i> 14.6K</span>
+                            <span><i class="fas fa-heart"></i> 10.1K</span>
+                        </div>
+                        <div class="game-actions">
+                            <button class="play-button">Play Now</button>
+                            <button class="like-button"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="featured-banner">
+            <div class="featured-content">
+                <h3>Featured Game of the Week</h3>
+                <p>Check out our exclusive new battle royale game - "Last Survivor" with amazing 3D graphics and intense multiplayer action!</p>
+                <button class="featured-button">Play Now</button>
+            </div>
+            <div class="featured-image">
+                <img src="https://via.placeholder.com/500x300/2f3542/ffffff?text=Last+Survivor" alt="Last Survivor">
+            </div>
+        </div>
+        
+        <section>
+            <div class="section-title">
+                <h2>New Releases</h2>
+                <a href="#">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="games-grid">
+                <!-- Game Card 5 -->
+                <div class="game-card">
+                    <div class="game-thumbnail">
+                        <img src="https://via.placeholder.com/300x150/ff4757/ffffff?text=Space+Explorers" alt="Space Explorers">
+                        <div class="game-badge new">New</div>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Space Explorers</h3>
+                        <div class="game-meta">
+                            <span>Adventure</span>
+                            <span>4.6 ★</span>
+                        </div>
+                        <div class="game-stats">
+                            <span><i class="fas fa-users"></i> 5.4K</span>
+                            <span><i class="fas fa-heart"></i> 3.8K</span>
+                        </div>
+                        <div class="game-actions">
+                            <button class="play-button">Play Now</button>
+                            <button class="like-button"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game Card 6 -->
+                <div class="game-card">
+                    <div class="game-thumbnail">
+                        <img src="https://via.placeholder.com/300x150/3742fa/ffffff?text=Bubble+Craze" alt="Bubble Craze">
+                        <div class="game-badge">HTML5</div>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Bubble Craze</h3>
+                        <div class="game-meta">
+                            <span>Casual</span>
+                            <span>4.5 ★</span>
+                        </div>
+                        <div class="game-stats">
+                            <span><i class="fas fa-users"></i> 8.2K</span>
+                            <span><i class="fas fa-heart"></i> 6.1K</span>
+                        </div>
+                        <div class="game-actions">
+                            <button class="play-button">Play Now</button>
+                            <button class="like-button"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game Card 7 -->
+                <div class="game-card">
+                    <div class="game-thumbnail">
+                        <img src="https://via.placeholder.com/300x150/ffa502/ffffff?text=Soccer+Stars" alt="Soccer Stars">
+                        <div class="game-badge multiplayer">Multiplayer</div>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Soccer Stars</h3>
+                        <div class="game-meta">
+                            <span>Sports</span>
+                            <span>4.7 ★</span>
+                        </div>
+                        <div class="game-stats">
+                            <span><i class="fas fa-users"></i> 11.3K</span>
+                            <span><i class="fas fa-heart"></i> 8.2K</span>
+                        </div>
+                        <div class="game-actions">
+                            <button class="play-button">Play Now</button>
+                            <button class="like-button"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game Card 8 -->
+                <div class="game-card">
+                    <div class="game-thumbnail">
+                        <img src="https://via.placeholder.com/300x150/2ed573/ffffff?text=Wild+Frontier" alt="Wild Frontier">
+                        <div class="game-badge">Unity</div>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Wild Frontier</h3>
+                        <div class="game-meta">
+                            <span>Adventure</span>
+                            <span>4.4 ★</span>
+                        </div>
+                        <div class="game-stats">
+                            <span><i class="fas fa-users"></i> 9.7K</span>
+                            <span><i class="fas fa-heart"></i> 7.3K</span>
+                        </div>
+                        <div class="game-actions">
+                            <button class="play-button">Play Now</button>
+                            <button class="like-button"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <div class="section-title">
+                <h2>MadforGames Exclusives</h2>
+                <a href="#">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="games-grid">
+                <!-- Game Card 9 -->
+                <div class="game-card">
+                    <div class="game-thumbnail">
+                        <img src="https://via.placeholder.com/300x150/ff4757/ffffff?text=Galaxy+Defenders" alt="Galaxy Defenders">
+                        <div class="game-badge exclusive">Exclusive</div>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Galaxy Defenders</h3>
+                        <div class="game-meta">
+                            <span>Strategy</span>
+                            <span>4.9 ★</span>
+                        </div>
+                        <div class="game-stats">
+                            <span><i class="fas fa-users"></i> 8.5K</span>
+                            <span><i class="fas fa-heart"></i> 7.1K</span>
+                        </div>
+                        <div class="game-actions">
+                            <button class="play-button">Play Now</button>
+                            <button class="like-button"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game Card 10 -->
+                <div class="game-card">
+                    <div class="game-thumbnail">
+                        <img src="https://via.placeholder.com/300x150/3742fa/ffffff?text=Pixel+Adventure" alt="Pixel Adventure">
+                        <div class="game-badge exclusive">Exclusive</div>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Pixel Adventure</h3>
+                        <div class="game-meta">
+                            <span>Platformer</span>
+                            <span>4.8 ★</span>
+                        </div>
+                        <div class="game-stats">
+                            <span><i class="fas fa-users"></i> 12.1K</span>
+                            <span><i class="fas fa-heart"></i> 9.8K</span>
+                        </div>
+                        <div class="game-actions">
+                            <button class="play-button">Play Now</button>
+                            <button class="like-button"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game Card 11 -->
+                <div class="game-card">
+                    <div class="game-thumbnail">
+                        <img src="https://via.placeholder.com/300x150/ffa502/ffffff?text=Deep+Sea+Explorer" alt="Deep Sea Explorer">
+                        <div class="game-badge exclusive">Exclusive</div>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Deep Sea Explorer</h3>
+                        <div class="game-meta">
+                            <span>Simulation</span>
+                            <span>4.7 ★</span>
+                        </div>
+                        <div class="game-stats">
+                            <span><i class="fas fa-users"></i> 7.3K</span>
+                            <span><i class="fas fa-heart"></i> 6.2K</span>
+                        </div>
+                        <div class="game-actions">
+                            <button class="play-button">Play Now</button>
+                            <button class="like-button"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game Card 12 -->
+                <div class="game-card">
+                    <div class="game-thumbnail">
+                        <img src="https://via.placeholder.com/300x150/2ed573/ffffff?text=Chess+Master+Pro" alt="Chess Master Pro">
+                        <div class="game-badge exclusive">Exclusive</div>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Chess Master Pro</h3>
+                        <div class="game-meta">
+                            <span>Strategy</span>
+                            <span>4.9 ★</span>
+                        </div>
+                        <div class="game-stats">
+                            <span><i class="fas fa-users"></i> 15.8K</span>
+                            <span><i class="fas fa-heart"></i> 12.7K</span>
+                        </div>
+                        <div class="game-actions">
+                            <button class="play-button">Play Now</button>
+                            <button class="like-button"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>MadforGames</h3>
+                    <p>Your ultimate destination for free online browser games. Play the best HTML5, Unity and WebGL games without downloads!</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Game Categories</h3>
+                    <ul>
+                        <li><a href="#">Action Games</a></li>
+                        <li><a href="#">Puzzle Games</a></li>
+                        <li><a href="#">Racing Games</a></li>
+                        <li><a href="#">Multiplayer Games</a></li>
+                        <li><a href="#">Strategy Games</a></li>
+                        <li><a href="#">Simulation Games</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Partners</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Report a Game</a></li>
+                        <li><a href="#">Submit a Game</a></li>
+                        <li><a href="#">Advertise With Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div>© 2023 MadforGames. All rights reserved. All trademarks are property of their respective owners.</div>
+                <div>
+                    <a href="#">Privacy Policy</a> | 
+                    <a href="#">Terms of Service</a> | 
+                    <a href="#">DMCA</a> | 
+                    <a href="#">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            
+            // Update icon
+            const icon = themeToggle.querySelector('i');
+            icon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            
+            // Save preference to localStorage
+            localStorage.setItem('theme', newTheme);
+        });
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', savedTheme);
+        themeToggle.querySelector('i').className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        
+        // Like button functionality
+        document.querySelectorAll('.like-button').forEach(button => {
+            button.addEventListener('click', function() {
+                this.classList.toggle('liked');
+                const icon = this.querySelector('i');
+                icon.classList.toggle('far');
+                icon.classList.toggle('fas');
+                
+                // In a real implementation, this would send a request to the server
+                const gameCard = this.closest('.game-card');
+                const likesElement = gameCard.querySelector('.game-stats span:nth-child(2)');
+                const currentLikes = parseInt(likesElement.textContent.replace(/\D/g, ''));
+                
+                if (this.classList.contains('liked')) {
+                    likesElement.textContent = likesElement.textContent.replace(/\d+/, currentLikes + 1);
+                } else {
+                    likesElement.textContent = likesElement.textContent.replace(/\d+/, currentLikes - 1);
+                }
+            });
+        });
+        
+        // Search functionality
+        const searchInput = document.querySelector('.search-bar input');
+        const searchButton = document.querySelector('.search-bar button');
+        
+        function performSearch() {
+            const query = searchInput.value.trim();
+            if (query) {
+                alert(`Searching for: ${query}`);
+                // In a real implementation, this would redirect to search results
+                // window.location.href = `/search?q=${encodeURIComponent(query)}`;
+            }
+        }
+        
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        
+        searchButton.addEventListener('click', performSearch);
+        
+        // Play button functionality
+        document.querySelectorAll('.play-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const gameTitle = this.closest('.game-card').querySelector('.game-title').textContent;
+                alert(`Loading game: ${gameTitle}`);
+                // In a real implementation, this would load the game in an iframe or new page
+                // window.location.href = `/play/${encodeURIComponent(gameTitle.toLowerCase().replace(/\s+/g, '-'))}`;
+            });
+        });
+        
+        // Featured game button
+        document.querySelector('.featured-button').addEventListener('click', function() {
+            alert('Loading featured game: Last Survivor');
+            // In a real implementation:
+            // window.location.href = '/play/last-survivor';
+        });
+        
+        // Category filter functionality
+        document.querySelectorAll('.category').forEach(category => {
+            category.addEventListener('click', function() {
+                document.querySelector('.category.active').classList.remove('active');
+                this.classList.add('active');
+                
+                const categoryName = this.textContent;
+                alert(`Filtering games by: ${categoryName}`);
+                // In a real implementation, this would filter the games grid
+            });
+        });
+        
+        // Navigation item functionality
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('.nav-item.active').classList.remove('active');
+                this.classList.add('active');
+                
+                const category = this.textContent;
+                if (category !== 'Home') {
+                    alert(`Loading category: ${category}`);
+                    // In a real implementation:
+                    // window.location.href = `/category/${category.toLowerCase()}`;
+                }
+            });
+        });
+        
+        // User actions
+        document.querySelector('.login').addEventListener('click', function() {
+            alert('Login modal would appear here');
+            // In a real implementation:
+            // showModal('login');
+        });
+        
+        document.querySelector('.signup').addEventListener('click', function() {
+            alert('Signup modal would appear here');
+            // In a real implementation:
+            // showModal('signup');
+        });
+    </script>
+</body>
+</html>
